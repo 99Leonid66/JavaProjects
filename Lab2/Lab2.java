@@ -3,15 +3,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class Lab2 {
     public static void main(String[] arg){
-        /*Point3d firstPoint = new Point3d();
-        firstPoint.setPoint3d(); //Задание точки
-        Point3d secondPoint = new Point3d();
-        secondPoint.setPoint3d();
-        Point3d thirdPoint = new Point3d();
-        thirdPoint.setPoint3d();
-
-        //Вывод площади треугольника
-        System.out.println(computeArea(firstPoint,secondPoint,thirdPoint));*/
 
         File file = new File("D:\\Проекты\\Java\\Lab2\\set data.txt");
 
@@ -28,8 +19,12 @@ public class Lab2 {
                 arr.get(j++).setCoorFromFile(pars[i++],pars[i++],pars[i++]);
                 i++;
             }
-            System.out.print(computeArea(arr.get(0),arr.get(1),arr.get(2)));
+            Double square = computeArea(arr.get(0),arr.get(1),arr.get(2));
 
+            try(FileWriter writer = new FileWriter("Square.txt", false)) {
+                String answer = "The square is " + square;
+                writer.write(answer);
+            }
 
         }catch (FileNotFoundException e){
             System.out.println("File not exists");
