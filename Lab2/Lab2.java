@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Lab2 {
     public static void main(String[] arg){
 
-        File file = new File("D:\\Проекты\\Java\\Lab2\\set data.txt");
+        File file = new File("D:\\Проекты\\Java\\Lab2\\in.txt");
 
         try {
             //Считывание файла и разбиение в массив
@@ -11,16 +11,24 @@ public class Lab2 {
             byte[] buf = new byte[inFile.available()];
             inFile.read(buf);
             String txt = new String(buf);
-            String[] pars = txt.replaceAll("(\\r|\\t)", "").split("[^0-9]+");
-
+            String[] pars = txt.split("[^0-9]");
+            ArrayList<String> arrStr = new ArrayList<>();
+            for (String str : pars){
+                if (str.isEmpty() ){
+                    continue;
+                }
+                else {
+                    arrStr.add(str);
+                }
+            }
             //Массив для хранения 3д точкек
             ArrayList<Point3d> arrOfPoints = new ArrayList<>();
             //Массив для хранения площади
             ArrayList<Double>  arrOfSquare = new ArrayList<>();
-            for (int i = 0, j = 0, k = 0; j < (pars.length/3);){
+            for (int i = 0, j = 0, k = 0; j < (arrStr.size()/3);){
                 arrOfPoints.add(new Point3d());//Добавляем 3д точку в массив
                 //Заносим координаты этой 3д точки
-                arrOfPoints.get(j++).setCoorFromFile(pars[i++], pars[i++], pars[i++]);
+                arrOfPoints.get(j++).setCoorFromFile(arrStr.get(i++), arrStr.get(i++), arrStr.get(i++));
                 //если имеются 3 точки, то считаем площадь и записываем её в массив
                 if (arrOfPoints.size() % 3 == 0){
                     arrOfSquare.add(computeArea(arrOfPoints.get(k++), arrOfPoints.get(k++),
@@ -30,7 +38,7 @@ public class Lab2 {
             }
 
             //Записываем ответ в новый файл
-            try(FileWriter writer = new FileWriter("Square.txt", false)) {
+            try(FileWriter writer = new FileWriter("out.txt", false)) {
                 for (int i = 0; i <  arrOfSquare.size(); i++) {
                     String answer = "The area of the " + (i+1) + " triangle is equal to " +
                             arrOfSquare.get(i) + "\r\n";
